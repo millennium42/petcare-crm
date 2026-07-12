@@ -1,0 +1,13 @@
+{
+  "name": "petcare-crm",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "scripts": {
+    "test": "npm test --workspace api",
+    "build": "npm run build --workspace web"
+  }
+}
