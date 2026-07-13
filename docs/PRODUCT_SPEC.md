@@ -50,6 +50,8 @@ All foreign keys are indexed. Customer-owned data cascades only where safe; user
 6. Dashboard shows customers, pets, today's appointments, open payments, due vaccines and upcoming reminders.
 7. Customer sees only their profile, pets, vaccine history, services, appointments, payments and reminders.
 
+When a staff form asks for both tutor/customer and pet, selecting a tutor must restrict the pet selector to only that tutor's pets.
+
 ## Demo data
 
 - Admin: `admin@petcare.local` / `Demo123!`

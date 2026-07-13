@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
+    "test": "node --test src/*.test.js",
     "build": "vite build",
     "check": "npm run build && node scripts/check-ui.mjs",
     "preview": "vite preview --host 0.0.0.0"

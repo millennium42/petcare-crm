@@ -1,5 +1,6 @@
 import { StrictMode, useEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import { fieldOptions, updateLinkedForm } from './form-options.js'
 import './styles.css'
 
 const DEMO_USERS = [
@@ -272,9 +273,11 @@ function ResourcePage({ resource, user }) {
   }, [resource, canWrite, config])
 
   function optionsFor(item) {
-    if (item.options) return item.options
-    if (!item.lookup) return []
-    return (lookups[item.lookup.path] || []).map((option) => ({ value: option[item.lookup.value], label: item.lookup.labels.map((key) => option[key]).filter(Boolean).join(' · ') || `#${option.id}` }))
+    return fieldOptions(item, lookups, form)
+  }
+
+  function updateForm(fieldName, current) {
+    setForm((previous) => updateLinkedForm(previous, fieldName, current, lookups))
   }
 
   async function submit(event) {
@@ -301,7 +304,7 @@ function ResourcePage({ resource, user }) {
       <div className="table-toolbar"><strong>{items.length} {items.length === 1 ? 'registro' : 'registros'}</strong><button className="icon-button" onClick={load} aria-label="Atualizar"><Icon name="refresh" size={18} /></button></div>
       {loading ? <Loading /> : error && !modal ? <ErrorState message={error} retry={load} /> : items.length ? <div className="table-scroll"><table><thead><tr>{config.columns.map(([key, label]) => <th key={key}>{label}</th>)}{config.statusAction && <th>Atualizar</th>}</tr></thead><tbody>{items.map((item) => { const row = hydrateItem(item, lookups); return <tr key={item.id}>{config.columns.map(([key, , render]) => <td key={key} data-label={config.columns.find(([column]) => column === key)?.[1]}>{render(row) || '—'}</td>)}{config.statusAction && <td data-label="Atualizar"><select className="status-select" aria-label="Atualizar status" value={item.status || ''} onChange={(event) => changeStatus(item, event.target.value)}>{config.statusAction.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></td>}</tr> })}</tbody></table></div> : <Empty />}
     </div>
-    {modal && <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && setModal(false)}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><header><div><span className="eyebrow">Novo cadastro</span><h2 id="modal-title">Adicionar {config.singular}</h2></div><button className="icon-button" aria-label="Fechar" onClick={() => setModal(false)}><Icon name="close" /></button></header><form onSubmit={submit}><div className="form-grid">{config.fields.map((item) => <FormField key={item.name} field={item} value={form[item.name]} options={optionsFor(item)} onChange={(current) => setForm({ ...form, [item.name]: current })} />)}</div>{error && <div className="inline-error" role="alert">{error}</div>}<footer><button type="button" className="button ghost" onClick={() => setModal(false)}>Cancelar</button><button className="button primary" disabled={saving}>{saving ? <><span className="spinner small" />Salvando...</> : 'Salvar cadastro'}</button></footer></form></section></div>}
+    {modal && <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && setModal(false)}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><header><div><span className="eyebrow">Novo cadastro</span><h2 id="modal-title">Adicionar {config.singular}</h2></div><button className="icon-button" aria-label="Fechar" onClick={() => setModal(false)}><Icon name="close" /></button></header><form onSubmit={submit}><div className="form-grid">{config.fields.map((item) => <FormField key={item.name} field={item} value={form[item.name]} options={optionsFor(item)} onChange={(current) => updateForm(item.name, current)} />)}</div>{error && <div className="inline-error" role="alert">{error}</div>}<footer><button type="button" className="button ghost" onClick={() => setModal(false)}>Cancelar</button><button className="button primary" disabled={saving}>{saving ? <><span className="spinner small" />Salvando...</> : 'Salvar cadastro'}</button></footer></form></section></div>}
   </section>
 }
 
