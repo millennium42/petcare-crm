@@ -74,7 +74,7 @@ O frontend usa `/api` em mesma origem no container web. Em desenvolvimento, o pr
 
 Esta versão é single-clinic e não inclui estoque, fornecedores, emissão fiscal, gateway de pagamento, telemedicina ou multi-tenancy. Esses módulos só devem entrar quando houver um caso comercial real para eles.
 
-Leia também [arquitetura](docs/ARCHITECTURE.md), [API](docs/API.md), [segurança](docs/SECURITY.md) e [privacidade/LGPD](docs/PRIVACY_LGPD.md).
+Leia também [arquitetura](docs/ARCHITECTURE.md), [API](docs/API.md), [migrações do banco](docs/DATABASE_MIGRATIONS.md), [segurança](docs/SECURITY.md) e [privacidade/LGPD](docs/PRIVACY_LGPD.md).
 
 ## Licença
 

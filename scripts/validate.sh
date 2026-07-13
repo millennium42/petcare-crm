@@ -25,5 +25,6 @@ done
 
 curl -fsS http://localhost:${WEB_PORT:-8080}/api/health >/dev/null
 bash scripts/check-seed.sh
+bash scripts/check-relations.sh
 node scripts/smoke.mjs "http://localhost:${WEB_PORT:-8080}/api"
 docker compose ps
