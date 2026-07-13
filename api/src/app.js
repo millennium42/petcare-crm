@@ -14,6 +14,14 @@ export function mysqlDateTime(value) {
   return normalized.length === 16 ? `${normalized}:00` : normalized;
 }
 
+export function assertPaymentPaidDate(status, paidDate) {
+  if ((status === "pago") !== Boolean(paidDate)) {
+    const error = new Error("paid_date deve existir somente para pagamento pago");
+    error.status = 400;
+    throw error;
+  }
+}
+
 async function find(pool, sql, params, label) {
   const [rows] = await pool.execute(sql, params);
   if (!rows[0]) {
@@ -243,7 +251,7 @@ export function createApp(pool) {
       check.requiredString("description", 255); check.positiveInt("amount_cents"); check.oneOf("method", ["dinheiro", "pix", "cartao", "boleto", "outro"]);
       const status = check.oneOf("status", ["pendente", "pago", "atrasado", "cancelado"]); check.date("due_date", true); check.date("paid_date", true);
       const values = assertValid(check); await ensureCustomer(pool, customerId); if (appointmentId) await ensureAppointment(pool, appointmentId, customerId);
-      if (status === "pago" && !values.paid_date) { const error = new Error("paid_date é obrigatório para pagamento pago"); error.status = 400; throw error; }
+      assertPaymentPaidDate(status, values.paid_date);
       return values;
     },
   });
@@ -266,7 +274,7 @@ export function createApp(pool) {
     const check = input(req.body); const status = check.oneOf("status", allowedStatuses); assertValid(check);
     const id = Number(req.params.id);
     if (!Number.isSafeInteger(id) || id <= 0) { const error = new Error("id deve ser um inteiro positivo"); error.status = 400; throw error; }
-    const paidDate = table === "payments" ? ", paid_date = IF(? = 'pago', COALESCE(paid_date, CURRENT_DATE), paid_date)" : "";
+    const paidDate = table === "payments" ? ", paid_date = IF(? = 'pago', COALESCE(paid_date, CURRENT_DATE), NULL)" : "";
     const params = table === "payments" ? [status, status, id] : [status, id];
     const [result] = await pool.execute(`UPDATE ${table} SET status = ?${paidDate} WHERE id = ?`, params);
     if (!result.affectedRows) return res.status(404).json({ error: "Registro não encontrado" });

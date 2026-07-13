@@ -37,3 +37,4 @@ List endpoints return `{ items: [] }`; detail aggregates may return named collec
 - Dates use `YYYY-MM-DD`; operational datetimes use local ISO without `Z` or offset (for example, `2026-07-13T09:30`) and are returned as clinic-local strings.
 - Passwords are at least 8 characters and never returned.
 - Unknown client-supplied ownership links are checked before insert.
+- `paid_date` is required when payment `status` is `pago` and must be absent for every other payment status; status transitions apply the same invariant atomically.
