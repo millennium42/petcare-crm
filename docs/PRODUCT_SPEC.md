@@ -63,6 +63,7 @@ When a staff form asks for both tutor/customer and pet, selecting a tutor must r
 - Staff: `equipe@petcare.local` / `Demo123!`
 - Customer: `cliente@petcare.local` / `Demo123!`
 - All records are fictional and include at least two customers, three pets, vaccines, each service category, appointments, notes, payments and reminders.
+- Smoke fixtures remain fictional and use presentation-safe clinical/commercial labels because they are visible in the customer portal.
 
 ## Acceptance gates
 
