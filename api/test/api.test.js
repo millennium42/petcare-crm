@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { mysqlDateTime } from "../src/app.js";
 import { allow, authenticate, COOKIE_NAME, cookieOptions, customerScope, decodeSession, issueToken } from "../src/auth.js";
 import { assertValid, input } from "../src/validation.js";
 
@@ -52,4 +53,12 @@ test("validação normaliza e rejeita dados fora do contrato", () => {
   const invalidDateTime = input({ scheduled_at: "2026-02-31T10:00" });
   invalidDateTime.date("scheduled_at", false, true);
   assert.throws(() => assertValid(invalidDateTime), /data ISO válida/);
+
+  const utcDateTime = input({ scheduled_at: "2026-07-13T09:30:00Z" });
+  utcDateTime.date("scheduled_at", false, true);
+  assert.throws(() => assertValid(utcDateTime), /data ISO válida/);
+});
+
+test("horário operacional preserva 09:30 como 09:30", () => {
+  assert.equal(mysqlDateTime("2026-07-13T09:30"), "2026-07-13 09:30:00");
 });

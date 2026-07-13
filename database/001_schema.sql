@@ -1,5 +1,5 @@
 SET NAMES utf8mb4;
-SET time_zone = '+00:00';
+SET time_zone = 'SYSTEM';
 
 CREATE TABLE IF NOT EXISTS customers (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

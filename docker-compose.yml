@@ -4,6 +4,7 @@ services:
   mysql:
     image: mysql:8.4
     environment:
+      TZ: ${APP_TIMEZONE:-America/Sao_Paulo}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-petcare}
       MYSQL_USER: ${MYSQL_USER:-petcare}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Run bash scripts/setup-env.sh first}
@@ -22,6 +23,7 @@ services:
   api:
     build: ./api
     environment:
+      TZ: ${APP_TIMEZONE:-America/Sao_Paulo}
       NODE_ENV: production
       PORT: 3000
       DB_HOST: mysql

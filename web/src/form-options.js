@@ -19,3 +19,7 @@ export function updateLinkedForm(form, fieldName, value, lookups) {
   }
   return next
 }
+
+export function parseClinicDateTime(value) {
+  return new Date(String(value).replace(' ', 'T'))
+}

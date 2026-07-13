@@ -1,6 +1,6 @@
 import { StrictMode, useEffect, useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { fieldOptions, updateLinkedForm } from './form-options.js'
+import { fieldOptions, parseClinicDateTime, updateLinkedForm } from './form-options.js'
 import './styles.css'
 
 const DEMO_USERS = [
@@ -104,7 +104,7 @@ function title(text = '') {
 const moneyFormatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
 function formatMoney(cents) { return cents === null || cents === undefined ? '—' : moneyFormatter.format(Number(cents) / 100) }
 function formatDate(date) { return date ? new Intl.DateTimeFormat('pt-BR').format(new Date(`${String(date).slice(0, 10)}T12:00:00`)) : '—' }
-function formatDateTime(date) { return date ? new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(date)) : '—' }
+function formatDateTime(date) { return date ? new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(parseClinicDateTime(date)) : '—' }
 function getInitials(name = 'PetCare') { return name.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase() }
 
 function Icon({ name, size = 20 }) {
@@ -239,7 +239,7 @@ function metric(object, ...keys) {
   return 0
 }
 function collection(object, ...keys) { for (const key of keys) if (Array.isArray(object?.[key])) return object[key]; return [] }
-function formatHour(date) { return date ? new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' }).format(new Date(date)) : '—' }
+function formatHour(date) { return date ? new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' }).format(parseClinicDateTime(date)) : '—' }
 
 function hydrateItem(item, lookups) {
   const linkedPet = (lookups['/pets'] || []).find((current) => current.id === item.pet_id)

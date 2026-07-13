@@ -12,6 +12,7 @@ Commercial-demo CRM for one veterinary clinic/petshop. It must feel SaaS-like wi
 - JWT stored in an HttpOnly, SameSite cookie; bcrypt password hashes.
 - Docker Compose services: `web`, `api`, `mysql`.
 - Public port: web/Nginx `8080`; API `3000` and MySQL `3306` stay internal to Compose.
+- Operational datetimes are clinic wall-clock values in `America/Sao_Paulo`; a time entered as 09:30 is stored, returned and displayed as 09:30.
 
 ## Roles
 

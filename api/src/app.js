@@ -9,8 +9,7 @@ const asyncRoute = (handler) => (req, res, next) => Promise.resolve(handler(req,
 const staff = allow("admin", "equipe");
 const DUMMY_PASSWORD_HASH = "$2b$12$mhgTUyir1GDTb08KU5CME.OvDfFFFctxzFMcD57LO.yR6lqU/UMLK";
 
-function mysqlDateTime(value) {
-  if (/[zZ]|[+-]\d{2}:?\d{2}$/.test(value)) return new Date(value).toISOString().slice(0, 19).replace("T", " ");
+export function mysqlDateTime(value) {
   const normalized = value.replace("T", " ");
   return normalized.length === 16 ? `${normalized}:00` : normalized;
 }

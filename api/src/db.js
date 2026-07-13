@@ -9,7 +9,7 @@ export function createPool() {
     database: process.env.DB_NAME || "petcare",
     waitForConnections: true,
     connectionLimit: 10,
-    timezone: "Z",
+    dateStrings: true,
     decimalNumbers: true,
   });
 }
