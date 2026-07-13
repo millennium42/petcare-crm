@@ -68,6 +68,6 @@ When a staff form asks for both tutor/customer and pet, selecting a tutor must r
 - React production build passes.
 - Docker images build and all three services become healthy/running.
 - `/api/health` succeeds.
-- Authenticated smoke proves login, role protection and customer data isolation.
+- Authenticated smoke proves positive relational creation, rejection of mismatched ownership, direct-list and portal isolation, clinical authorship, role protection and invalid-session rejection.
 - No secret or real personal data is committed.
 - Peer review, security review, QA and release review have no unresolved blockers.

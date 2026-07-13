@@ -56,7 +56,7 @@ No Windows:
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\validate.ps1
 ```
 
-A validação compõe os serviços, constrói as imagens, aguarda o health check e prova login, dashboard, portal do cliente e bloqueio de criação de usuários pelo papel `cliente`.
+A validação compõe os serviços, constrói as imagens, aguarda os health checks e usa a API real para provar criação positiva, rejeição de relacionamentos incompatíveis, isolamento das listagens do cliente, autoria clínica, RBAC e sessão inválida.
 
 ## Desenvolvimento local
 
