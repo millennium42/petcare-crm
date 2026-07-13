@@ -17,6 +17,7 @@ export function updateLinkedForm(form, fieldName, value, lookups) {
     const selectedPet = (lookups['/pets'] || []).find((pet) => String(pet.id) === String(next.pet_id))
     if (selectedPet && String(selectedPet.customer_id) !== String(value)) next.pet_id = ''
   }
+  if (fieldName === 'status' && value !== 'pago' && 'paid_date' in next) next.paid_date = ''
   return next
 }
 

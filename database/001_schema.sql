@@ -135,7 +135,8 @@ CREATE TABLE IF NOT EXISTS payments (
   KEY idx_payments_appointment (appointment_id),
   CONSTRAINT fk_payments_customer FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE,
   CONSTRAINT fk_payments_appointment FOREIGN KEY (appointment_id) REFERENCES appointments(id) ON DELETE SET NULL,
-  CONSTRAINT chk_payments_amount CHECK (amount_cents > 0)
+  CONSTRAINT chk_payments_amount CHECK (amount_cents > 0),
+  CONSTRAINT chk_payments_paid_date CHECK ((status = 'pago' AND paid_date IS NOT NULL) OR (status <> 'pago' AND paid_date IS NULL))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS reminders (

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mysqlDateTime } from "../src/app.js";
+import { assertPaymentPaidDate, mysqlDateTime } from "../src/app.js";
 import { allow, authenticate, COOKIE_NAME, cookieOptions, customerScope, decodeSession, issueToken } from "../src/auth.js";
 import { assertValid, input } from "../src/validation.js";
 
@@ -61,4 +61,11 @@ test("validação normaliza e rejeita dados fora do contrato", () => {
 
 test("horário operacional preserva 09:30 como 09:30", () => {
   assert.equal(mysqlDateTime("2026-07-13T09:30"), "2026-07-13 09:30:00");
+});
+
+test("paid_date existe se e somente se o pagamento está pago", () => {
+  assert.doesNotThrow(() => assertPaymentPaidDate("pago", "2026-07-13"));
+  assert.doesNotThrow(() => assertPaymentPaidDate("pendente", null));
+  assert.throws(() => assertPaymentPaidDate("pago", null), /somente para pagamento pago/);
+  assert.throws(() => assertPaymentPaidDate("cancelado", "2026-07-13"), /somente para pagamento pago/);
 });

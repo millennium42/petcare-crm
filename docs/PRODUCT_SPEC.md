@@ -41,6 +41,8 @@ Every customer user is linked to exactly one `customer_id`. Customer authorizati
 
 All foreign keys are indexed. Customer-owned data cascades only where safe; user and clinical authorship is preserved or nulled. Money is stored as integer cents.
 
+A payment has `paid_date` if and only if its status is `pago`; leaving the paid state clears that date atomically.
+
 ## Required workflows
 
 1. Sign in as admin, staff or customer and sign out.

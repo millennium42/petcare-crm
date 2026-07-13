@@ -32,3 +32,10 @@ test('parseClinicDateTime preserves clinic wall-clock time', () => {
     process.env.TZ = previousTimezone
   }
 })
+
+test('updateLinkedForm clears paid_date outside paid status', () => {
+  assert.deepEqual(updateLinkedForm({ status: 'pago', paid_date: '2026-07-13' }, 'status', 'cancelado', {}), {
+    status: 'cancelado',
+    paid_date: '',
+  })
+})
