@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { fieldOptions, updateLinkedForm } from './form-options.js'
+import { fieldOptions, parseClinicDateTime, updateLinkedForm } from './form-options.js'
 
 const petField = { lookup: { path: '/pets', value: 'id', labels: ['name', 'customer_name'] } }
 const lookups = { '/pets': [
@@ -19,4 +19,16 @@ test('updateLinkedForm clears selected pet when tutor changes', () => {
     customer_id: '20',
     pet_id: '',
   })
+})
+
+test('parseClinicDateTime preserves clinic wall-clock time', () => {
+  const previousTimezone = process.env.TZ
+  process.env.TZ = 'America/Sao_Paulo'
+  try {
+    const date = parseClinicDateTime('2026-07-13 09:30:00')
+    assert.equal(date.getHours(), 9)
+    assert.equal(date.getMinutes(), 30)
+  } finally {
+    process.env.TZ = previousTimezone
+  }
 })

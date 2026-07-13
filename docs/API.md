@@ -34,6 +34,6 @@ List endpoints return `{ items: [] }`; detail aggregates may return named collec
 - Required strings are trimmed and length-limited.
 - IDs and money cents are positive integers.
 - Enum-like fields are allow-listed.
-- Dates must be ISO date/datetime strings accepted by MySQL.
+- Dates use `YYYY-MM-DD`; operational datetimes use local ISO without `Z` or offset (for example, `2026-07-13T09:30`) and are returned as clinic-local strings.
 - Passwords are at least 8 characters and never returned.
 - Unknown client-supplied ownership links are checked before insert.

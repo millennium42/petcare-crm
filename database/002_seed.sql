@@ -1,4 +1,5 @@
 SET NAMES utf8mb4;
+SET time_zone = 'SYSTEM';
 
 INSERT INTO customers (id, name, email, phone, address, notes) VALUES
   (1, 'Marina Oliveira', 'marina@example.test', '(11) 99911-2233', 'Rua das Flores, 120', 'Prefere contato por WhatsApp.'),
