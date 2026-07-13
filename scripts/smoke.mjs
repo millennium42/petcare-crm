@@ -1,4 +1,10 @@
 const base = process.argv[2] || 'http://localhost:8080/api';
+const demoFixtures = {
+  appointmentNote: 'Agendamento preventivo de demonstração',
+  medicalObservation: 'Paciente em acompanhamento preventivo, sem intercorrências relatadas.',
+  paymentDescription: 'Consulta preventiva de demonstração',
+  reminderMessage: 'Confirmar o retorno preventivo do pet.',
+};
 
 const assert = (condition, message) => {
   if (!condition) throw new Error(message);
@@ -72,27 +78,27 @@ const ownPet = staffPets.body.items.find((pet) => ownPetIds.has(pet.id));
 const otherPet = staffPets.body.items.find((pet) => pet.customer_id !== customerId);
 assert(ownPet && otherPet, 'seed must provide own and foreign pets');
 
-const appointment = await ensureResource('/appointments', staffCookie, (item) => item.notes === 'smoke: positive relationships', {
+const appointment = await ensureResource('/appointments', staffCookie, (item) => item.notes === demoFixtures.appointmentNote, {
   customer_id: customerId,
   pet_id: ownPet.id,
   service_type: 'consulta',
   scheduled_at: '2030-01-15T09:30',
   status: 'agendado',
-  notes: 'smoke: positive relationships',
+  notes: demoFixtures.appointmentNote,
 });
 assert(appointment.customer_id === customerId && appointment.pet_id === ownPet.id, 'positive appointment has inconsistent ownership');
 
-const medicalNote = await ensureResource('/medical-notes', staffCookie, (item) => item.observation === 'smoke: positive clinical relationship', {
+const medicalNote = await ensureResource('/medical-notes', staffCookie, (item) => item.observation === demoFixtures.medicalObservation, {
   pet_id: ownPet.id,
   appointment_id: appointment.id,
-  observation: 'smoke: positive clinical relationship',
+  observation: demoFixtures.medicalObservation,
 });
 assert(medicalNote.pet_id === ownPet.id && medicalNote.appointment_id === appointment.id, 'positive medical note has inconsistent relationships');
 
-const payment = await ensureResource('/payments', staffCookie, (item) => item.description === 'smoke: positive payment relationship', {
+const payment = await ensureResource('/payments', staffCookie, (item) => item.description === demoFixtures.paymentDescription, {
   customer_id: customerId,
   appointment_id: appointment.id,
-  description: 'smoke: positive payment relationship',
+  description: demoFixtures.paymentDescription,
   amount_cents: 12345,
   method: 'pix',
   status: 'pendente',
@@ -100,11 +106,11 @@ const payment = await ensureResource('/payments', staffCookie, (item) => item.de
 });
 assert(payment.customer_id === customerId && payment.appointment_id === appointment.id, 'positive payment has inconsistent relationships');
 
-const reminder = await ensureResource('/reminders', staffCookie, (item) => item.message === 'smoke: positive reminder relationship', {
+const reminder = await ensureResource('/reminders', staffCookie, (item) => item.message === demoFixtures.reminderMessage, {
   customer_id: customerId,
   pet_id: ownPet.id,
   kind: 'retorno',
-  message: 'smoke: positive reminder relationship',
+  message: demoFixtures.reminderMessage,
   due_at: '2030-01-16T10:00',
   status: 'pendente',
 });
