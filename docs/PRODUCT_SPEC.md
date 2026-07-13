@@ -35,7 +35,7 @@ Every customer user is linked to exactly one `customer_id`. Customer authorizati
 - `vaccines`: pet, name, dose, application date, next due date, veterinarian, status.
 - `services`: pet/customer, `consulta|banho|tosa|exame|hotel|procedimento`, date, status, value in integer cents, notes.
 - `appointments`: pet/customer, service type, scheduled time, status, notes.
-- `medical_notes`: pet, optional appointment, author, clinical observation and timestamp.
+- `medical_notes`: pet, optional appointment, persisted author id and real clinical author name, clinical observation and timestamp.
 - `payments`: customer, optional appointment, description, amount in integer cents, method, status, due/paid dates.
 - `reminders`: customer, optional pet, kind, message, due time and status.
 

@@ -232,7 +232,7 @@ export function createApp(pool) {
     readRoles: roles,
     writeRoles: ["admin", "equipe"],
     scopeColumn: "p.customer_id",
-    select: "SELECT m.id, m.pet_id, m.appointment_id, m.author_user_id, m.observation, m.created_at, m.updated_at FROM medical_notes m JOIN pets p ON p.id = m.pet_id",
+    select: "SELECT m.id, m.pet_id, m.appointment_id, m.author_user_id, u.name AS author_name, m.observation, m.created_at, m.updated_at FROM medical_notes m JOIN pets p ON p.id = m.pet_id LEFT JOIN users u ON u.id = m.author_user_id",
     parse: async (req, db) => {
       const check = input(req.body); const petId = check.positiveInt("pet_id"); const appointmentId = check.positiveInt("appointment_id", true);
       check.requiredString("observation", 5000); const values = assertValid(check); await ensurePet(db, petId);
@@ -325,7 +325,7 @@ export function createApp(pool) {
       pool.execute("SELECT v.* FROM vaccines v JOIN pets p ON p.id = v.pet_id WHERE p.customer_id = ? ORDER BY v.application_date DESC", [customerId]),
       pool.execute("SELECT * FROM services WHERE customer_id = ? ORDER BY service_date DESC", [customerId]),
       pool.execute("SELECT * FROM appointments WHERE customer_id = ? ORDER BY scheduled_at DESC", [customerId]),
-      pool.execute("SELECT m.* FROM medical_notes m JOIN pets p ON p.id = m.pet_id WHERE p.customer_id = ? ORDER BY m.created_at DESC", [customerId]),
+      pool.execute("SELECT m.*, u.name AS author_name FROM medical_notes m JOIN pets p ON p.id = m.pet_id LEFT JOIN users u ON u.id = m.author_user_id WHERE p.customer_id = ? ORDER BY m.created_at DESC", [customerId]),
       pool.execute("SELECT * FROM payments WHERE customer_id = ? ORDER BY due_date DESC", [customerId]),
       pool.execute("SELECT * FROM reminders WHERE customer_id = ? ORDER BY due_at", [customerId]),
     ]);

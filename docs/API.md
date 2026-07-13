@@ -34,6 +34,8 @@ List endpoints return `{ items: [] }`; detail aggregates may return named collec
 - Required strings are trimmed and length-limited.
 - IDs and money cents are positive integers.
 - Enum-like fields are allow-listed.
+- Pet `sex` is required as `macho`, `femea` or `desconhecido`; the staff form defaults to `desconhecido`.
+- Medical-note reads include nullable `author_name`, resolved from the persisted clinical author instead of a UI label.
 - Dates use `YYYY-MM-DD`; operational datetimes use local ISO without `Z` or offset (for example, `2026-07-13T09:30`) and are returned as clinic-local strings.
 - Passwords are at least 8 characters and never returned.
 - Unknown client-supplied ownership links are checked before insert.
