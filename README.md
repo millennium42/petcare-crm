@@ -17,6 +17,8 @@ CRM de demonstração comercial para clínicas veterinárias e petshops: operaç
 
 Requisitos: Docker e Docker Compose.
 
+As imagens usam o `package-lock.json` da raiz e `npm ci` por workspace; builds Docker e instalações locais resolvem exatamente as mesmas versões.
+
 ```bash
 bash scripts/setup-env.sh
 docker compose up --build -d
