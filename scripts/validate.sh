@@ -12,16 +12,9 @@ trap on_error ERR
 bash scripts/setup-env.sh
 npm ci --no-audit --no-fund
 npm test
-npm run build
+npm run check --workspace petcare-web
 docker compose config --quiet
-docker compose up --build -d
-
-for _ in $(seq 1 60); do
-  if curl -fsS http://localhost:${WEB_PORT:-8080}/api/health >/dev/null; then
-    break
-  fi
-  sleep 2
-done
+docker compose up --build --wait --wait-timeout "${COMPOSE_WAIT_TIMEOUT:-360}"
 
 curl -fsS http://localhost:${WEB_PORT:-8080}/api/health >/dev/null
 bash scripts/check-seed.sh

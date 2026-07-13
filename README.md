@@ -58,7 +58,7 @@ No Windows:
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\validate.ps1
 ```
 
-A validação compõe os serviços, constrói as imagens, aguarda os health checks e usa a API real para provar criação positiva, rejeição de relacionamentos incompatíveis, isolamento das listagens do cliente, autoria clínica, RBAC e sessão inválida.
+A validação compõe os serviços, constrói as imagens, aguarda os três health checks por até 360 segundos e usa a API real para provar criação positiva, rejeição de relacionamentos incompatíveis, isolamento das listagens do cliente, autoria clínica, RBAC e sessão inválida. Em máquinas mais lentas, ajuste `COMPOSE_WAIT_TIMEOUT` sem alterar o script.
 
 ## Desenvolvimento local
 
