@@ -1,5 +1,7 @@
 .git
 .env
+.m1nd
+daemon_state.json
 node_modules
 **/node_modules
 **/dist
