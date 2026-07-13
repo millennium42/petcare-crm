@@ -31,11 +31,15 @@ assert(health.ok, `health failed: ${health.status}`);
 const adminCookie = await login('admin@petcare.local');
 const admin = await request('/dashboard', adminCookie);
 assert(admin.response.ok && Number.isInteger(admin.body.pets), 'admin dashboard missing metrics');
+const medicalNotes = await request('/medical-notes', adminCookie);
+assert(medicalNotes.response.ok, `medical notes failed: ${medicalNotes.response.status}`);
+assert(medicalNotes.body.items?.find((note) => note.id === 1)?.author_name === 'Bruno da Equipe', 'medical note returned the wrong clinical author');
 
 const clientCookie = await login('cliente@petcare.local');
 const portal = await request('/portal', clientCookie);
 assert(portal.response.ok && portal.body.customer, 'customer portal aggregate missing');
 assert(portal.body.pets?.length > 0, 'customer portal has no pets');
+assert(portal.body.medical_notes?.find((note) => note.id === 1)?.author_name === 'Bruno da Equipe', 'portal returned the wrong clinical author');
 const customerId = portal.body.customer.id;
 const ownPetIds = new Set(portal.body.pets.map((pet) => pet.id));
 assert(portal.body.pets.every((pet) => pet.customer_id === customerId), 'portal leaked a pet from another customer');

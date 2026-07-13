@@ -41,7 +41,7 @@ const RESOURCES = {
   },
   pets: {
     title: 'Pets', singular: 'pet', eyebrow: 'Pacientes', description: 'Perfis completos ligados aos seus tutores.',
-    fields: [field('customer_id', 'Tutor', 'select', { required: true, lookup: lookup('/customers', 'id', ['name', 'email']) }), field('name', 'Nome', 'text', { required: true }), field('species', 'Espécie', 'select', { required: true, options: statusOptions('cão', 'gato', 'ave', 'roedor', 'outro') }), field('breed', 'Raça'), field('sex', 'Sexo', 'select', { options: [{ value: 'macho', label: 'Macho' }, { value: 'femea', label: 'Fêmea' }, { value: 'desconhecido', label: 'Desconhecido' }] }), field('birth_date', 'Nascimento', 'date'), field('weight_kg', 'Peso (kg)', 'number', { step: '0.01' }), field('allergies', 'Alergias'), field('notes', 'Observações', 'textarea')],
+    fields: [field('customer_id', 'Tutor', 'select', { required: true, lookup: lookup('/customers', 'id', ['name', 'email']) }), field('name', 'Nome', 'text', { required: true }), field('species', 'Espécie', 'select', { required: true, options: statusOptions('cão', 'gato', 'ave', 'roedor', 'outro') }), field('breed', 'Raça'), field('sex', 'Sexo', 'select', { required: true, default: 'desconhecido', options: [{ value: 'macho', label: 'Macho' }, { value: 'femea', label: 'Fêmea' }, { value: 'desconhecido', label: 'Desconhecido' }] }), field('birth_date', 'Nascimento', 'date'), field('weight_kg', 'Peso (kg)', 'number', { step: '0.01' }), field('allergies', 'Alergias'), field('notes', 'Observações', 'textarea')],
     columns: [['name', 'Pet', petName], ['customer_name', 'Tutor', owner], ['species', 'Espécie', value('species')], ['breed', 'Raça', value('breed')], ['weight_kg', 'Peso', (item) => item.weight_kg ? `${item.weight_kg} kg` : '—']],
   },
   vaccines: {
@@ -63,7 +63,7 @@ const RESOURCES = {
   'medical-notes': {
     title: 'Prontuário', singular: 'registro clínico', eyebrow: 'Saúde', description: 'Observações clínicas objetivas e rastreáveis.',
     fields: [field('pet_id', 'Pet', 'select', { required: true, lookup: lookup('/pets', 'id', ['name', 'customer_name']) }), field('appointment_id', 'Agendamento', 'select', { lookup: lookup('/appointments', 'id', ['pet_name', 'scheduled_at']) }), field('observation', 'Observação clínica', 'textarea', { required: true })],
-    columns: [['pet_name', 'Pet', pet], ['observation', 'Observação', value('observation')], ['author_name', 'Responsável', (item) => item.author_name || item.user_name || 'Equipe'], ['created_at', 'Registrado em', (item) => formatDateTime(item.created_at)]],
+    columns: [['pet_name', 'Pet', pet], ['observation', 'Observação', value('observation')], ['author_name', 'Responsável', (item) => item.author_name || 'Autor indisponível'], ['created_at', 'Registrado em', (item) => formatDateTime(item.created_at)]],
   },
   payments: {
     title: 'Pagamentos', singular: 'pagamento', eyebrow: 'Financeiro', description: 'Cobranças e recebimentos sem complexidade desnecessária.',
