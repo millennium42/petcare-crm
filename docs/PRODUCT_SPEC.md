@@ -41,6 +41,8 @@ Every customer user is linked to exactly one `customer_id`. Customer authorizati
 
 All foreign keys are indexed. Customer-owned data cascades only where safe; user and clinical authorship is preserved or nulled. Money is stored as integer cents.
 
+The database enforces appointment/pet on clinical notes, appointment/customer on payments and pet/customer on reminders as composite relationships. Hard deletion is restricted where it could erase or detach clinical/financial history; commercial flows should deactivate or follow an explicit retention process.
+
 A payment has `paid_date` if and only if its status is `pago`; leaving the paid state clears that date atomically.
 
 ## Required workflows
