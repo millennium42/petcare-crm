@@ -46,7 +46,7 @@ const RESOURCES = {
   },
   vaccines: {
     title: 'Vacinas', singular: 'vacina', eyebrow: 'Prevenção', description: 'Histórico de doses e próximos vencimentos.',
-    fields: [field('pet_id', 'Pet', 'select', { required: true, lookup: lookup('/pets', 'id', ['name', 'customer_name']) }), field('name', 'Vacina', 'text', { required: true }), field('dose', 'Dose'), field('application_date', 'Data de aplicação', 'date', { required: true }), field('next_due_date', 'Próxima dose', 'date'), field('veterinarian', 'Veterinário(a)'), field('status', 'Status', 'select', { required: true, default: 'aplicada', options: statusOptions('aplicada', 'pendente', 'atrasada') })],
+    fields: [field('customer_id', 'Tutor', 'select', { required: true, lookup: lookup('/customers', 'id', ['name', 'email']) }), field('pet_id', 'Pet', 'select', { required: true, lookup: lookup('/pets', 'id', ['name', 'customer_name']) }), field('name', 'Vacina', 'text', { required: true }), field('dose', 'Dose'), field('application_date', 'Data de aplicação', 'date', { required: true }), field('next_due_date', 'Próxima dose', 'date'), field('veterinarian', 'Veterinário(a)'), field('status', 'Status', 'select', { required: true, default: 'aplicada', options: statusOptions('aplicada', 'pendente', 'atrasada') })],
     columns: [['name', 'Vacina', value('name')], ['pet_name', 'Pet', pet], ['application_date', 'Aplicada em', (item) => formatDate(item.application_date)], ['next_due_date', 'Próxima dose', (item) => formatDate(item.next_due_date)], ['status', 'Status', (item) => <Status value={item.status} />]],
   },
   services: {
