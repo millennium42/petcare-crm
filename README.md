@@ -2,6 +2,10 @@
 
 CRM de demonstração comercial para clínicas veterinárias e petshops: operação, agenda, prontuário simples, financeiro e uma área exclusiva para o tutor.
 
+## Guia detalhado de instalação local no Windows
+
+Para preparar a demonstração **em um PC partindo do zero**, siga o **[Guia de instalação e demonstração local — Windows](docs/GUIA_DEMONSTRACAO_LOCAL_WINDOWS.md)**. O procedimento cobre Windows/WSL 2, Docker Desktop, Ubuntu, configuração segura do `.env`, primeira inicialização, checagem dos serviços, testes, contas de demonstração, roteiro de apresentação, atualização, backup e diagnóstico de erros. O guia foi elaborado com base nos arquivos e scripts executáveis da `main`, não apenas neste README.
+
 ## O que a demonstração cobre
 
 - Dashboard operacional com agenda, vacinas, cobranças e lembretes.
