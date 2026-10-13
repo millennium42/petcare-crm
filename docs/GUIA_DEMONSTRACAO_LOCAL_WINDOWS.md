@@ -294,12 +294,12 @@ Antes de atualizar um banco que **já existia antes da migração `003_compound_
 
 ```bash
 cd ~/petcare-crm
-mkdir -p backups
-docker compose exec -T mysql sh -c 'exec mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" --single-transaction "$MYSQL_DATABASE"' > "backups/petcare-$(date +%Y%m%d-%H%M%S).sql"
-ls -lh backups/
+mkdir -p "$HOME/petcare-backups"
+docker compose exec -T mysql sh -c 'exec mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" --single-transaction "$MYSQL_DATABASE"' > "$HOME/petcare-backups/petcare-$(date +%Y%m%d-%H%M%S).sql"
+ls -lh "$HOME/petcare-backups"/
 ```
 
-Os arquivos `backups/*.sql` podem conter dados pessoais caso o banco seja reutilizado indevidamente; proteja-os e **não os envie ao repositório Git**.
+Os arquivos em `~/petcare-backups/` podem conter dados pessoais caso o banco seja reutilizado indevidamente; proteja-os e **não os envie ao repositório Git**.
 
 **AVISO — apaga os registros do banco:** `docker compose down -v` remove o volume `mysql_data`. Só use para uma **demo descartável**, quando tiver certeza de que não precisa dos dados. No próximo `up`, os dados fictícios serão recriados pelos scripts SQL.
 
@@ -310,7 +310,7 @@ Os arquivos `backups/*.sql` podem conter dados pessoais caso o banco seja reutil
 | `wsl --install` falha | Windows antigo, virtualização desativada ou falta de privilégio | Atualize Windows, execute como administrador, habilite virtualização; veja a documentação da Microsoft |
 | `docker: command not found` no Ubuntu | Docker Desktop sem integração WSL | Habilite Ubuntu em `Settings > Resources > WSL Integration` e reinicie o terminal |
 | `Cannot connect to the Docker daemon` | Docker Desktop fechado/não iniciado | Abra o Docker Desktop e confirme o mecanismo Linux |
-| `Bind for 0.0.0.0:8080 failed` ou porta já em uso | Outra aplicação ocupa a porta | Identifique com `netstat -ano | findstr :8080` **no PowerShell**; ou troque `WEB_PORT=8080` por `WEB_PORT=8081` no `.env` e use `http://localhost:8081` |
+| `Bind for 0.0.0.0:8080 failed` ou porta já em uso | Outra aplicação ocupa a porta | Identifique com `Get-NetTCPConnection -LocalPort 8080` **no PowerShell**; ou troque `WEB_PORT=8080` por `WEB_PORT=8081` no `.env` e use `http://localhost:8081` |
 | Interface não abre ou API dá 502 | Banco/API ainda inicializando ou contêiner falhou | `docker compose ps` e `docker compose logs --tail=120 api`; execute `docker compose up --build --wait --wait-timeout 600` |
 | `check-seed.sh` falha com quantidades diferentes | Volume antigo, dados já modificados ou seed incompleto | Confira `docker compose logs mysql` e o volume; não apague dados sem backup |
 | `check-relations.sh` falha | Banco antigo ainda sem a migração 003 | Leia `docs/DATABASE_MIGRATIONS.md` antes de modificar o banco |
